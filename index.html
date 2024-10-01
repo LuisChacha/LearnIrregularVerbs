@@ -5,12 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Irregular Verbs List</title>
     <style>
+        body {
+            font-family: Arial, sans-serif; /* Mejora la legibilidad */
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9; /* Color de fondo suave */
+        }
+
         #display-area {
-            width: 80%;
+            width: 100%;
+            max-width: 800px; /* Ancho máximo */
             margin: 20px auto;
             border-collapse: collapse;
             text-align: center;
-            font-size: 18px; /* Initial text size */
+            font-size: 18px; /* Tamaño de texto inicial */
         }
 
         table,
@@ -42,18 +50,49 @@
             font-size: 18px;
         }
 
-        #counter {
-            font-size: 18px;
-            margin-top: 10px;
-        }
-
-        #cycleCounter {
+        #counter, #cycleCounter {
             font-size: 18px;
             margin-top: 10px;
         }
 
         #fontSizeValue {
             font-weight: bold;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            button {
+                font-size: 14px; /* Reducir el tamaño de los botones en pantallas más pequeñas */
+                padding: 8px 15px; /* Ajustar el padding */
+            }
+
+            #display-area {
+                font-size: 16px; /* Reducir el tamaño de la fuente en tabletas y móviles */
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px; /* Menos espacio en los bordes */
+            }
+
+            h1 {
+                font-size: 24px; /* Tamaño de título más pequeño */
+            }
+
+            #display-area {
+                font-size: 14px; /* Tamaño de fuente aún más pequeño en móviles */
+            }
+
+            button {
+                width: 100%; /* Botones ocupan todo el ancho */
+                margin: 5px 0; /* Espaciado entre botones */
+            }
+
+            input[type="text"], input[type="number"], input[type="range"] {
+                width: 100%; /* Inputs ocupan todo el ancho */
+                margin: 5px 0; /* Espaciado entre inputs */
+            }
         }
     </style>
 </head>
@@ -118,155 +157,155 @@
     <script>
         // List of 15 irregular verbs as an example
         const irregularVerbs = [
-        ["abide", "abode", "abode", "permanecer"],
-        ["arise", "arose", "arisen", "surgir"],
-        ["awake", "awoke", "awoken", "despertar(se)"],
-        ["be", "was/were", "been", "ser/estar"],
-        ["bear", "bore", "born", "dar a luz"],
-        ["become", "became", "become", "convertirse"],
-        ["begin", "began", "begun", "empezar"],
-        ["bend", "bent", "bent", "doblar"],
-        ["bet", "bet", "bet", "apostar"],
-        ["bid", "bid", "bid", "ofertar"],
-        ["bite", "bit", "bitten", "morder"],
-        ["bleed", "bled", "bled", "sangrar"],
-        ["blow", "blew", "blown", "soplar"],
-        ["break", "broke", "broken", "romper"],
-        ["bring", "brought", "brought", "traer"],
-        ["build", "built", "built", "construir"],
-        ["burn", "burnt/burned", "burnt/burned", "quemar"],
-        ["burst", "burst", "burst", "estallar"],
-        ["buy", "bought", "bought", "comprar"],
-        ["cast", "cast", "cast", "echar"],
-        ["catch", "caught", "caught", "atrapar"],
-        ["choose", "chose", "chosen", "elegir"],
-        ["cling", "clung", "clung", "aferrarse"],
-        ["come", "came", "come", "venir"],
-        ["cost", "cost", "cost", "costar"],
-        ["creep", "crept", "crept", "gatear"],
-        ["cut", "cut", "cut", "cortar"],
-        ["deal", "dealt", "dealt", "tratar"],
-        ["dig", "dug", "dug", "cavar"],
-        ["do", "did", "done", "hacer"],
-        ["draw", "drew", "drawn", "dibujar"],
-        ["dream", "dreamt/dreamed", "dreamt/dreamed", "soñar"],
-        ["drink", "drank", "drunk", "beber"],
-        ["drive", "drove", "driven", "conducir"],
-        ["eat", "ate", "eaten", "comer"],
-        ["fall", "fell", "fallen", "caer"],
-        ["feed", "fed", "fed", "alimentar"],
-        ["feel", "felt", "felt", "sentir"],
-        ["fight", "fought", "fought", "luchar"],
-        ["find", "found", "found", "encontrar"],
-        ["flee", "fled", "fled", "huir"],
-        ["fling", "flung", "flung", "arrojar"],
-        ["fly", "flew", "flown", "volar"],
-        ["forbid", "forbade", "forbidden", "prohibir"],
-        ["forget", "forgot", "forgotten", "olvidar"],
-        ["forgive", "forgave", "forgiven", "perdonar"],
-        ["freeze", "froze", "frozen", "congelar"],
-        ["get", "got", "gotten/got", "obtener"],
-        ["give", "gave", "given", "dar"],
-        ["go", "went", "gone", "ir"],
-        ["grow", "grew", "grown", "crecer"],
-        ["hang", "hung", "hung", "colgar"],
-        ["have", "had", "had", "tener"],
-        ["hear", "heard", "heard", "oír"],
-        ["hide", "hid", "hidden", "ocultar"],
-        ["hit", "hit", "hit", "golpear"],
-        ["hold", "held", "held", "sostener"],
-        ["hurt", "hurt", "hurt", "herir"],
-        ["keep", "kept", "kept", "mantener"],
-        ["kneel", "knelt", "knelt", "arrodillarse"],
-        ["know", "knew", "known", "saber/conocer"],
-        ["lay", "laid", "laid", "poner"],
-        ["lead", "led", "led", "dirigir"],
-        ["lean", "leant/leaned", "leant/leaned", "inclinarse"],
-        ["leap", "leapt/leaped", "leapt/leaped", "saltar"],
-        ["leave", "left", "left", "dejar"],
-        ["lend", "lent", "lent", "prestar"],
-        ["let", "let", "let", "dejar"],
-        ["lie", "lay", "lain", "mentir"],
-        ["light", "lit/lighted", "lit/lighted", "iluminar"],
-        ["lose", "lost", "lost", "perder"],
-        ["make", "made", "made", "hacer"],
-        ["mean", "meant", "meant", "significar"],
-        ["meet", "met", "met", "encontrar"],
-        ["miss", "missed", "missed", "extrañar"],
-        ["mistake", "mistook", "mistaken", "errar"],
-        ["mow", "mowed", "mown", "cortar (césped)"],
-        ["overcome", "overcame", "overcome", "superar"],
-        ["partake", "partook", "partaken", "participar"],
-        ["pay", "paid", "paid", "pagar"],
-        ["put", "put", "put", "poner"],
-        ["quit", "quit/quitted", "quit/quitted", "dejar"],
-        ["read", "read", "read", "leer"],
-        ["ride", "rode", "ridden", "montar"],
-        ["ring", "rang", "rung", "sonar"],
-        ["rise", "rose", "risen", "elevarse"],
-        ["run", "ran", "run", "correr"],
-        ["saw", "sawed", "sawn/sawed", "serrar"],
-        ["say", "said", "said", "decir"],
-        ["see", "saw", "seen", "ver"],
-        ["sell", "sold", "sold", "vender"],
-        ["send", "sent", "sent", "enviar"],
-        ["set", "set", "set", "colocar"],
-        ["sew", "sewed", "sewn/sewed", "coser"],
-        ["shake", "shook", "shaken", "sacudir"],
-        ["shave", "shaved", "shaved", "afeitar"],
-        ["shear", "sheared", "shorn/sheared", "esquilar"],
-        ["shine", "shone", "shone", "brillar"],
-        ["shoot", "shot", "shot", "disparar"],
-        ["show", "showed", "shown", "mostrar"],
-        ["shut", "shut", "shut", "cerrar"],
-        ["sing", "sang", "sung", "cantar"],
-        ["sink", "sank", "sunk", "hundir"],
-        ["sit", "sat", "sat", "sentar(se)"],
-        ["sleep", "slept", "slept", "dormir"],
-        ["slide", "slid", "slid", "deslizar"],
-        ["sling", "slung", "slung", "lanzar"],
-        ["slink", "slunk", "slunk", "escabullirse"],
-        ["sneak", "snuck", "snuck", "furtar"],
-        ["sow", "sowed", "sown", "sembrar"],
-        ["speak", "spoke", "spoken", "hablar"],
-        ["spend", "spent", "spent", "gastar"],
-        ["spill", "spilt/spilled", "spilt/spilled", "derramar"],
-        ["spin", "spun", "spun", "hilar"],
-        ["spit", "spat", "spat", "escupir"],
-        ["split", "split", "split", "dividir"],
-        ["spread", "spread", "spread", "extender"],
-        ["spring", "sprang", "sprung", "saltar"],
-        ["stand", "stood", "stood", "estar de pie"],
-        ["steal", "stole", "stolen", "robar"],
-        ["stick", "stuck", "stuck", "pegar"],
-        ["sting", "stung", "stung", "picar"],
-        ["stink", "stank", "stunk", "oler mal"],
-        ["strike", "struck", "struck", "golpear"],
-        ["string", "strung", "strung", "ensartar"],
-        ["swear", "swore", "sworn", "jurar"],
-        ["sweep", "swept", "swept", "barrer"],
-        ["swim", "swam", "swum", "nadar"],
-        ["take", "took", "taken", "tomar"],
-        ["teach", "taught", "taught", "enseñar"],
-        ["tear", "tore", "torn", "rasgar"],
-        ["tell", "told", "told", "decir"],
-        ["think", "thought", "thought", "pensar"],
-        ["thrive", "throve/thrived", "thriven/thrived", "prosperar"],
-        ["throw", "threw", "thrown", "lanzar"],
-        ["thrust", "thrust", "thrust", "empujar"],
-        ["tread", "trod", "trodden", "pisar"],
-        ["understand", "understood", "understood", "entender"],
-        ["uphold", "upheld", "upheld", "mantener"],
-        ["wake", "woke", "woken", "despertar"],
-        ["wear", "wore", "worn", "llevar puesto"],
-        ["weave", "wove", "woven", "tejer"],
-        ["weep", "wept", "wept", "llorar"],
-        ["win", "won", "won", "ganar"],
-        ["wind", "wound", "wound", "enrollar"],
-        ["withdraw", "withdrew", "withdrawn", "retirar"],
-        ["withstand", "withstood", "withstood", "resistir"],
-        ["wring", "wrung", "wrung", "retorcer"],
-        ["write", "wrote", "written", "escribir"],
+        ['abide', 'abode', 'abode', 'permanecer'],
+        ['arise', 'arose', 'arisen', 'surgir'],
+        ['awake', 'awoke', 'awoken', 'despertar(se)'],
+        ['be', 'was/were', 'been', 'ser/estar'],
+        ['bear', 'bore', 'born', 'dar a luz'],
+        ['become', 'became', 'become', 'convertirse'],
+        ['begin', 'began', 'begun', 'empezar'],
+        ['bend', 'bent', 'bent', 'doblar'],
+        ['bet', 'bet', 'bet', 'apostar'],
+        ['bid', 'bid', 'bid', 'ofertar'],
+        ['bite', 'bit', 'bitten', 'morder'],
+        ['bleed', 'bled', 'bled', 'sangrar'],
+        ['blow', 'blew', 'blown', 'soplar'],
+        ['break', 'broke', 'broken', 'romper'],
+        ['bring', 'brought', 'brought', 'traer'],
+        ['build', 'built', 'built', 'construir'],
+        ['burn', 'burnt/burned', 'burnt/burned', 'quemar'],
+        ['burst', 'burst', 'burst', 'estallar'],
+        ['buy', 'bought', 'bought', 'comprar'],
+        ['cast', 'cast', 'cast', 'echar'],
+        ['catch', 'caught', 'caught', 'atrapar'],
+        ['choose', 'chose', 'chosen', 'elegir'],
+        ['cling', 'clung', 'clung', 'aferrarse'],
+        ['come', 'came', 'come', 'venir'],
+        ['cost', 'cost', 'cost', 'costar'],
+        ['creep', 'crept', 'crept', 'gatear'],
+        ['cut', 'cut', 'cut', 'cortar'],
+        ['deal', 'dealt', 'dealt', 'tratar'],
+        ['dig', 'dug', 'dug', 'cavar'],
+        ['do', 'did', 'done', 'hacer'],
+        ['draw', 'drew', 'drawn', 'dibujar'],
+        ['dream', 'dreamt/dreamed', 'dreamt/dreamed', 'soñar'],
+        ['drink', 'drank', 'drunk', 'beber'],
+        ['drive', 'drove', 'driven', 'conducir'],
+        ['eat', 'ate', 'eaten', 'comer'],
+        ['fall', 'fell', 'fallen', 'caer'],
+        ['feed', 'fed', 'fed', 'alimentar'],
+        ['feel', 'felt', 'felt', 'sentir'],
+        ['fight', 'fought', 'fought', 'luchar'],
+        ['find', 'found', 'found', 'encontrar'],
+        ['flee', 'fled', 'fled', 'huir'],
+        ['fling', 'flung', 'flung', 'arrojar'],
+        ['fly', 'flew', 'flown', 'volar'],
+        ['forbid', 'forbade', 'forbidden', 'prohibir'],
+        ['forget', 'forgot', 'forgotten', 'olvidar'],
+        ['forgive', 'forgave', 'forgiven', 'perdonar'],
+        ['freeze', 'froze', 'frozen', 'congelar'],
+        ['get', 'got', 'gotten/got', 'obtener'],
+        ['give', 'gave', 'given', 'dar'],
+        ['go', 'went', 'gone', 'ir'],
+        ['grow', 'grew', 'grown', 'crecer'],
+        ['hang', 'hung', 'hung', 'colgar'],
+        ['have', 'had', 'had', 'tener'],
+        ['hear', 'heard', 'heard', 'oír'],
+        ['hide', 'hid', 'hidden', 'ocultar'],
+        ['hit', 'hit', 'hit', 'golpear'],
+        ['hold', 'held', 'held', 'sostener'],
+        ['hurt', 'hurt', 'hurt', 'herir'],
+        ['keep', 'kept', 'kept', 'mantener'],
+        ['kneel', 'knelt', 'knelt', 'arrodillarse'],
+        ['know', 'knew', 'known', 'saber/conocer'],
+        ['lay', 'laid', 'laid', 'poner'],
+        ['lead', 'led', 'led', 'dirigir'],
+        ['lean', 'leant/leaned', 'leant/leaned', 'inclinarse'],
+        ['leap', 'leapt/leaped', 'leapt/leaped', 'saltar'],
+        ['leave', 'left', 'left', 'dejar'],
+        ['lend', 'lent', 'lent', 'prestar'],
+        ['let', 'let', 'let', 'dejar'],
+        ['lie', 'lay', 'lain', 'mentir'],
+        ['light', 'lit/lighted', 'lit/lighted', 'iluminar'],
+        ['lose', 'lost', 'lost', 'perder'],
+        ['make', 'made', 'made', 'hacer'],
+        ['mean', 'meant', 'meant', 'significar'],
+        ['meet', 'met', 'met', 'encontrar'],
+        ['miss', 'missed', 'missed', 'extrañar'],
+        ['mistake', 'mistook', 'mistaken', 'errar'],
+        ['mow', 'mowed', 'mown', 'cortar (césped)'],
+        ['overcome', 'overcame', 'overcome', 'superar'],
+        ['partake', 'partook', 'partaken', 'participar'],
+        ['pay', 'paid', 'paid', 'pagar'],
+        ['put', 'put', 'put', 'poner'],
+        ['quit', 'quit/quitted', 'quit/quitted', 'dejar'],
+        ['read', 'read', 'read', 'leer'],
+        ['ride', 'rode', 'ridden', 'montar'],
+        ['ring', 'rang', 'rung', 'sonar'],
+        ['rise', 'rose', 'risen', 'elevarse'],
+        ['run', 'ran', 'run', 'correr'],
+        ['saw', 'sawed', 'sawn/sawed', 'serrar'],
+        ['say', 'said', 'said', 'decir'],
+        ['see', 'saw', 'seen', 'ver'],
+        ['sell', 'sold', 'sold', 'vender'],
+        ['send', 'sent', 'sent', 'enviar'],
+        ['set', 'set', 'set', 'colocar'],
+        ['sew', 'sewed', 'sewn/sewed', 'coser'],
+        ['shake', 'shook', 'shaken', 'sacudir'],
+        ['shave', 'shaved', 'shaved', 'afeitar'],
+        ['shear', 'sheared', 'shorn/sheared', 'esquilar'],
+        ['shine', 'shone', 'shone', 'brillar'],
+        ['shoot', 'shot', 'shot', 'disparar'],
+        ['show', 'showed', 'shown', 'mostrar'],
+        ['shut', 'shut', 'shut', 'cerrar'],
+        ['sing', 'sang', 'sung', 'cantar'],
+        ['sink', 'sank', 'sunk', 'hundir'],
+        ['sit', 'sat', 'sat', 'sentar(se)'],
+        ['sleep', 'slept', 'slept', 'dormir'],
+        ['slide', 'slid', 'slid', 'deslizar'],
+        ['sling', 'slung', 'slung', 'lanzar'],
+        ['slink', 'slunk', 'slunk', 'escabullirse'],
+        ['sneak', 'snuck', 'snuck', 'furtar'],
+        ['sow', 'sowed', 'sown', 'sembrar'],
+        ['speak', 'spoke', 'spoken', 'hablar'],
+        ['spend', 'spent', 'spent', 'gastar'],
+        ['spill', 'spilt/spilled', 'spilt/spilled', 'derramar'],
+        ['spin', 'spun', 'spun', 'hilar'],
+        ['spit', 'spat', 'spat', 'escupir'],
+        ['split', 'split', 'split', 'dividir'],
+        ['spread', 'spread', 'spread', 'extender'],
+        ['spring', 'sprang', 'sprung', 'saltar'],
+        ['stand', 'stood', 'stood', 'estar de pie'],
+        ['steal', 'stole', 'stolen', 'robar'],
+        ['stick', 'stuck', 'stuck', 'pegar'],
+        ['sting', 'stung', 'stung', 'picar'],
+        ['stink', 'stank', 'stunk', 'oler mal'],
+        ['strike', 'struck', 'struck', 'golpear'],
+        ['string', 'strung', 'strung', 'ensartar'],
+        ['swear', 'swore', 'sworn', 'jurar'],
+        ['sweep', 'swept', 'swept', 'barrer'],
+        ['swim', 'swam', 'swum', 'nadar'],
+        ['take', 'took', 'taken', 'tomar'],
+        ['teach', 'taught', 'taught', 'enseñar'],
+        ['tear', 'tore', 'torn', 'rasgar'],
+        ['tell', 'told', 'told', 'decir'],
+        ['think', 'thought', 'thought', 'pensar'],
+        ['thrive', 'throve/thrived', 'thriven/thrived', 'prosperar'],
+        ['throw', 'threw', 'thrown', 'lanzar'],
+        ['thrust', 'thrust', 'thrust', 'empujar'],
+        ['tread', 'trod', 'trodden', 'pisar'],
+        ['understand', 'understood', 'understood', 'entender'],
+        ['uphold', 'upheld', 'upheld', 'mantener'],
+        ['wake', 'woke', 'woken', 'despertar'],
+        ['wear', 'wore', 'worn', 'llevar puesto'],
+        ['weave', 'wove', 'woven', 'tejer'],
+        ['weep', 'wept', 'wept', 'llorar'],
+        ['win', 'won', 'won', 'ganar'],
+        ['wind', 'wound', 'wound', 'enrollar'],
+        ['withdraw', 'withdrew', 'withdrawn', 'retirar'],
+        ['withstand', 'withstood', 'withstood', 'resistir'],
+        ['wring', 'wrung', 'wrung', 'retorcer'],
+        ['write', 'wrote', 'written', 'escribir'],
       ];
 
         let index = 0;
