@@ -61,9 +61,9 @@
       }
 
       #timerDisplay {
-        font-size: 18px;
-        font-weight: bold;
         margin-top: 10px;
+        font-weight: bold;
+        font-size: 18px;
       }
     </style>
   </head>
@@ -76,8 +76,8 @@
       maxlength="1"
       style="text-transform: uppercase"
     />
-    <button id="prevLetterBtn">Previous Letter</button>
-    <button id="nextLetterBtn">Next Letter</button>
+    <button id="letterDecrease">⬅️</button>
+    <button id="letterIncrease">➡️</button>
 
     <label for="timerInput">Interval (seconds):</label>
     <input
@@ -85,12 +85,9 @@
       id="timerInput"
       min="1"
       value="3"
-      style="width: 60px"
     />
     <button id="timerDecrease">-</button>
     <button id="timerIncrease">+</button>
-
-    <div id="timerDisplay">Timer: 3 seconds</div>
 
     <table id="display-area">
       <thead>
@@ -102,7 +99,7 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Here the verbs will be displayed -->
+        <!-- Verbs will be displayed here -->
       </tbody>
     </table>
 
@@ -113,11 +110,10 @@
     </div>
 
     <div id="counter">Verb: 1/0</div>
-    <!-- Verb counter -->
-    <div id="cycleCounter">Cycles: 0</div>
-    <!-- Cycle counter -->
+    <div id="cycleCounter">Cycle: 1</div>
+    <div id="timerDisplay">Timer: 3 seconds</div>
 
-    <!-- Footer with text size control -->
+    <!-- Footer with font size control -->
     <footer>
       <label for="fontSizeControl">Text size:</label>
       <input
@@ -136,7 +132,7 @@
         ['abide', 'abode', 'abode', 'to remain'],
         ['arise', 'arose', 'arisen', 'to arise'],
         ['be', 'was/were', 'been', 'to be'],
-        ['bear', 'bore', 'born', 'to bear'],
+        ['bear', 'bore', 'born', 'to give birth'],
         ['cast', 'cast', 'cast', 'to cast'],
         ['catch', 'caught', 'caught', 'to catch'],
         ['deal', 'dealt', 'dealt', 'to deal'],
@@ -144,11 +140,11 @@
       ];
 
       let index = 0;
-      let cycleCount = 0;
       let intervalId;
       let filteredLetter = '';
       let filteredVerbs = [];
       let interval = 3000; // Default interval in milliseconds
+      let cycleCount = 1; // Counter for cycles
 
       function showVerb() {
         const area = document.querySelector('#display-area tbody');
@@ -159,50 +155,44 @@
           verb[0].startsWith(filteredLetter)
         );
 
-        // Calculate total verbs
-        const totalVerbs = filteredVerbs.length || irregularVerbs.length;
+        // Total number of filtered verbs
+        const totalVerbs = filteredVerbs.length;
 
-        // Update the counter
-        document.getElementById('counter').innerText = `Verb: ${
-          (index % totalVerbs) + 1
-        }/${totalVerbs}`;
+        // Reset index if no verbs are filtered
+        if (totalVerbs === 0) {
+          index = 0; // Reset index
+          document.getElementById('counter').innerText = `Verb: 0/${totalVerbs}`;
+          return; // Stop further execution
+        }
 
-        // If there are remaining verbs
-        if (totalVerbs > 0) {
-          const verb = filteredVerbs[index % totalVerbs]; // Cycle through filtered verbs
-          const row = `<tr>
+        // Update the counter for current verb
+        document.getElementById('counter').innerText = `Verb: ${((index % totalVerbs) + 1)}/${totalVerbs}`;
+
+        // Update cycle counter if completed a cycle
+        if (index % totalVerbs === 0 && index > 0) {
+          cycleCount++;
+          document.getElementById('cycleCounter').innerText = `Cycle: ${cycleCount}`;
+        }
+
+        // Display the current verb
+        const verb = filteredVerbs[index % totalVerbs]; // Cycle through filtered verbs
+        const row = `<tr>
                 <td>${verb[0]}</td>
                 <td>${verb[1]}</td>
                 <td>${verb[2]}</td>
                 <td>${verb[3]}</td>
             </tr>`;
-          area.innerHTML = row;
-          index++;
-        } else {
-          clearInterval(intervalId);
-          document.getElementById('status').innerText = 'Status: Stopped';
-        }
-
-        // Update cycle count if we have cycled through all verbs
-        if (index % irregularVerbs.length === 0) {
-          cycleCount++;
-          document.getElementById('cycleCounter').innerText = `Cycles: ${cycleCount}`;
-        }
+        area.innerHTML = row;
+        index++;
+        document.getElementById('timerDisplay').innerText = `Timer: ${interval / 1000} seconds`; // Update timer display
       }
 
       function showAllVerbs() {
         const area = document.querySelector('#display-area tbody');
         area.innerHTML = ''; // Clear display area
-        const totalVerbs = filteredLetter
-          ? filteredVerbs.length
-          : irregularVerbs.length;
 
-        // Show all verbs based on the filter
-        const verbsToShow = filteredLetter
-          ? filteredVerbs
-          : irregularVerbs;
-
-        verbsToShow.forEach((verb) => {
+        // Display all verbs according to the filter
+        filteredVerbs.forEach((verb) => {
           const row = `<tr>
                 <td>${verb[0]}</td>
                 <td>${verb[1]}</td>
@@ -213,9 +203,7 @@
         });
 
         // Update the counter
-        document.getElementById(
-          'counter'
-        ).innerText = `Verb: ${totalVerbs}/${totalVerbs}`;
+        document.getElementById('counter').innerText = `Verb: ${filteredVerbs.length}/${filteredVerbs.length}`;
         document.getElementById('status').innerText = 'Status: Stopped';
       }
 
@@ -226,51 +214,39 @@
           interval = newInterval;
           clearInterval(intervalId);
           intervalId = setInterval(showVerb, interval);
-          document.getElementById('timerDisplay').innerText = `Timer: ${
-            newInterval / 1000
-          } seconds`;
         }
       }
 
       document.getElementById('stopBtn').addEventListener('click', () => {
         clearInterval(intervalId);
-        showAllVerbs(); // Show all verbs based on the filter
+        showAllVerbs(); // Show all verbs according to the filter
       });
 
       document.getElementById('resetBtn').addEventListener('click', () => {
         clearInterval(intervalId);
         index = 0;
+        cycleCount = 1; // Reset cycle count
         document.getElementById('status').innerText = 'Status: Started';
         showVerb();
         intervalId = setInterval(showVerb, interval);
-        cycleCount = 0; // Reset cycle count on reset
-        document.getElementById('cycleCounter').innerText = `Cycles: ${cycleCount}`;
       });
 
-      document
-        .getElementById('fontSizeControl')
-        .addEventListener('input', (event) => {
-          const fontSize = event.target.value;
-          document.querySelector('#display-area').style.fontSize =
-            fontSize + 'px';
-          document.getElementById('fontSizeValue').innerText = fontSize;
-        });
+      document.getElementById('fontSizeControl').addEventListener('input', (event) => {
+        const fontSize = event.target.value;
+        document.querySelector('#display-area').style.fontSize = fontSize + 'px';
+        document.getElementById('fontSizeValue').innerText = fontSize;
+      });
 
-      document
-        .getElementById('filterInput')
-        .addEventListener('input', (event) => {
-          filteredLetter = event.target.value.toLowerCase(); // Take the letter in lowercase
-          index = 0; // Reset index when applying filter
-          showVerb(); // Show the first filtered verb
-          clearInterval(intervalId); // Clear previous interval
-          intervalId = setInterval(showVerb, interval); // Restart the interval
-        });
+      document.getElementById('filterInput').addEventListener('input', (event) => {
+        filteredLetter = event.target.value.toLowerCase(); // Get the letter in lowercase
+        index = 0; // Reset index when applying the filter
+        cycleCount = 1; // Reset cycle count
+        showVerb(); // Show the first filtered verb
+        clearInterval(intervalId); // Clear the previous interval
+        intervalId = setInterval(showVerb, interval); // Restart the interval
+      });
 
-      document
-        .getElementById('timerInput')
-        .addEventListener('change', updateInterval);
-
-      document.getElementById('nextLetterBtn').addEventListener('click', () => {
+      document.getElementById('letterIncrease').addEventListener('click', () => {
         const currentLetter = document.getElementById('filterInput').value;
         if (currentLetter) {
           const nextLetter = String.fromCharCode(currentLetter.charCodeAt(0) + 1);
@@ -281,7 +257,7 @@
         }
       });
 
-      document.getElementById('prevLetterBtn').addEventListener('click', () => {
+      document.getElementById('letterDecrease').addEventListener('click', () => {
         const currentLetter = document.getElementById('filterInput').value;
         if (currentLetter) {
           const prevLetter = String.fromCharCode(currentLetter.charCodeAt(0) - 1);
@@ -292,25 +268,26 @@
         }
       });
 
+      document.getElementById('timerInput').addEventListener('input', updateInterval);
+
       document.getElementById('timerDecrease').addEventListener('click', () => {
         let currentValue = parseInt(document.getElementById('timerInput').value);
         if (currentValue > 1) {
-          document.getElementById('timerInput').value = currentValue - 1;
+          currentValue -= 1;
+          document.getElementById('timerInput').value = currentValue;
           updateInterval();
         }
       });
 
       document.getElementById('timerIncrease').addEventListener('click', () => {
         let currentValue = parseInt(document.getElementById('timerInput').value);
-        document.getElementById('timerInput').value = currentValue + 1;
+        currentValue += 1;
+        document.getElementById('timerInput').value = currentValue;
         updateInterval();
       });
 
-      // Start displaying verbs
+      // Start the interval on page load
       intervalId = setInterval(showVerb, interval);
-      document.getElementById('timerDisplay').innerText = `Timer: ${
-        interval / 1000
-      } seconds`;
     </script>
   </body>
 </html>
