@@ -47,23 +47,13 @@
             margin-top: 10px;
         }
 
-        footer {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        #fontSizeControl {
-            margin-left: 10px;
+        #cycleCounter {
+            font-size: 18px;
+            margin-top: 10px;
         }
 
         #fontSizeValue {
             font-weight: bold;
-        }
-
-        #timerDisplay {
-            margin-top: 10px;
-            font-weight: bold;
-            font-size: 18px;
         }
     </style>
 </head>
@@ -111,7 +101,6 @@
 
     <div id="counter">Verb: 1/0</div>
     <div id="cycleCounter">Cycle: 1</div>
-    <div id="timerDisplay">Timer: 0:03</div>
 
     <!-- Footer with font size control -->
     <footer>
@@ -145,12 +134,6 @@
         let filteredVerbs = [];
         let interval = 3000; // Default interval in milliseconds
         let cycleCount = 1; // Counter for cycles
-
-        function formatTime(seconds) {
-            const mins = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-        }
 
         function showVerb() {
             const area = document.querySelector('#display-area tbody');
@@ -190,7 +173,6 @@
                 </tr>`;
             area.innerHTML = row;
             index++;
-            document.getElementById('timerDisplay').innerText = `Timer: ${formatTime(interval / 1000)}`; // Update timer display
         }
 
         function showAllVerbs() {
@@ -235,7 +217,6 @@
             document.getElementById('status').innerText = 'Status: Started';
             document.getElementById('counter').innerText = `Verb: 1/0`; // Reset verb counter
             document.getElementById('cycleCounter').innerText = `Cycle: ${cycleCount}`; // Reset cycle counter
-            document.getElementById('timerDisplay').innerText = `Timer: 0:00`; // Reset timer display
             showVerb();
             intervalId = setInterval(showVerb, interval);
         });
@@ -273,21 +254,21 @@
         });
 
         document.getElementById('timerIncrease').addEventListener('click', () => {
-          const input = document.getElementById('timerInput');
-          input.value = parseInt(input.value) + 1; // Aumentar el valor en 1
-          updateInterval(); // Actualizar el intervalo
-      });
+            const input = document.getElementById('timerInput');
+            input.value = parseInt(input.value) + 1;
+            updateInterval();
+        });
 
-      document.getElementById('timerDecrease').addEventListener('click', () => {
-          const input = document.getElementById('timerInput');
-          if (parseInt(input.value) > 1) { // Asegurarse de que no sea menor que 1
-              input.value = parseInt(input.value) - 1; // Disminuir el valor en 1
-              updateInterval(); // Actualizar el intervalo
-          }
-      });
+        document.getElementById('timerDecrease').addEventListener('click', () => {
+            const input = document.getElementById('timerInput');
+            if (parseInt(input.value) > 1) {
+                input.value = parseInt(input.value) - 1;
+                updateInterval();
+            }
+        });
 
-
-        intervalId = setInterval(showVerb, interval); // Start interval
+        // Start the first interval
+        intervalId = setInterval(showVerb, interval);
     </script>
 </body>
 </html>
