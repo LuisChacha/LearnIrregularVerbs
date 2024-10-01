@@ -272,6 +272,21 @@
             showVerb();
         });
 
+        document.getElementById('timerIncrease').addEventListener('click', () => {
+          const input = document.getElementById('timerInput');
+          input.value = parseInt(input.value) + 1; // Aumentar el valor en 1
+          updateInterval(); // Actualizar el intervalo
+      });
+
+      document.getElementById('timerDecrease').addEventListener('click', () => {
+          const input = document.getElementById('timerInput');
+          if (parseInt(input.value) > 1) { // Asegurarse de que no sea menor que 1
+              input.value = parseInt(input.value) - 1; // Disminuir el valor en 1
+              updateInterval(); // Actualizar el intervalo
+          }
+      });
+
+
         intervalId = setInterval(showVerb, interval); // Start interval
     </script>
 </body>
