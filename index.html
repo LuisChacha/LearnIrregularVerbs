@@ -1,293 +1,278 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Irregular Verbs List</title>
     <style>
-      #display-area {
-        width: 80%;
-        margin: 20px auto;
-        border-collapse: collapse;
-        text-align: center;
-        font-size: 18px; /* Initial text size */
-      }
+        #display-area {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            text-align: center;
+            font-size: 18px; /* Initial text size */
+        }
 
-      table,
-      th,
-      td {
-        border: 2px solid black;
-        padding: 8px;
-      }
+        table,
+        th,
+        td {
+            border: 2px solid black;
+            padding: 8px;
+        }
 
-      th {
-        background-color: #f2f2f2;
-      }
+        th {
+            background-color: #f2f2f2;
+        }
 
-      #controls {
-        text-align: center;
-        margin-top: 20px;
-      }
+        #controls {
+            text-align: center;
+            margin-top: 20px;
+        }
 
-      button {
-        padding: 10px 20px;
-        margin: 5px;
-        font-size: 16px;
-        cursor: pointer;
-      }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-      #status {
-        margin-top: 10px;
-        font-weight: bold;
-        font-size: 18px;
-      }
+        #status {
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 18px;
+        }
 
-      #counter {
-        font-size: 18px;
-        margin-top: 10px;
-      }
+        #counter {
+            font-size: 18px;
+            margin-top: 10px;
+        }
 
-      footer {
-        text-align: center;
-        margin-top: 20px;
-      }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+        }
 
-      #fontSizeControl {
-        margin-left: 10px;
-      }
+        #fontSizeControl {
+            margin-left: 10px;
+        }
 
-      #fontSizeValue {
-        font-weight: bold;
-      }
+        #fontSizeValue {
+            font-weight: bold;
+        }
 
-      #timerDisplay {
-        margin-top: 10px;
-        font-weight: bold;
-        font-size: 18px;
-      }
+        #timerDisplay {
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 18px;
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <h1>Filter Irregular Verbs</h1>
     <label for="filterInput">Enter letter to filter:</label>
     <input
-      type="text"
-      id="filterInput"
-      maxlength="1"
-      style="text-transform: uppercase"
+        type="text"
+        id="filterInput"
+        maxlength="1"
+        style="text-transform: uppercase"
     />
     <button id="letterDecrease">⬅️</button>
     <button id="letterIncrease">➡️</button>
 
     <label for="timerInput">Interval (seconds):</label>
     <input
-      type="number"
-      id="timerInput"
-      min="1"
-      value="3"
+        type="number"
+        id="timerInput"
+        min="1"
+        value="3"
     />
     <button id="timerDecrease">-</button>
     <button id="timerIncrease">+</button>
 
     <table id="display-area">
-      <thead>
-        <tr>
-          <th>Infinitive</th>
-          <th>Simple Past</th>
-          <th>Past Participle</th>
-          <th>Meaning</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Verbs will be displayed here -->
-      </tbody>
+        <thead>
+            <tr>
+                <th>Infinitive</th>
+                <th>Simple Past</th>
+                <th>Past Participle</th>
+                <th>Meaning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Verbs will be displayed here -->
+        </tbody>
     </table>
 
     <div id="controls">
-      <button id="stopBtn">Stop</button>
-      <button id="resetBtn">Reset</button>
-      <div id="status">Status: Started</div>
+        <button id="stopBtn">Stop</button>
+        <button id="resetBtn">Reset</button>
+        <div id="status">Status: Started</div>
     </div>
 
     <div id="counter">Verb: 1/0</div>
     <div id="cycleCounter">Cycle: 1</div>
-    <div id="timerDisplay">Timer: 3 seconds</div>
+    <div id="timerDisplay">Timer: 0:03</div>
 
     <!-- Footer with font size control -->
     <footer>
-      <label for="fontSizeControl">Text size:</label>
-      <input
-        type="range"
-        id="fontSizeControl"
-        min="12"
-        max="30"
-        value="18"
-      />
-      <span id="fontSizeValue">18</span> px
+        <label for="fontSizeControl">Text size:</label>
+        <input
+            type="range"
+            id="fontSizeControl"
+            min="12"
+            max="30"
+            value="18"
+        />
+        <span id="fontSizeValue">18</span> px
     </footer>
 
     <script>
-      // List of 15 irregular verbs as an example
-      const irregularVerbs = [
-        ['abide', 'abode', 'abode', 'to remain'],
-        ['arise', 'arose', 'arisen', 'to arise'],
-        ['be', 'was/were', 'been', 'to be'],
-        ['bear', 'bore', 'born', 'to give birth'],
-        ['cast', 'cast', 'cast', 'to cast'],
-        ['catch', 'caught', 'caught', 'to catch'],
-        ['deal', 'dealt', 'dealt', 'to deal'],
-        ['dig', 'dug', 'dug', 'to dig'],
-      ];
+        // List of 15 irregular verbs as an example
+        const irregularVerbs = [
+            ['abide', 'abode', 'abode', 'to remain'],
+            ['arise', 'arose', 'arisen', 'to arise'],
+            ['be', 'was/were', 'been', 'to be'],
+            ['bear', 'bore', 'born', 'to give birth'],
+            ['cast', 'cast', 'cast', 'to cast'],
+            ['catch', 'caught', 'caught', 'to catch'],
+            ['deal', 'dealt', 'dealt', 'to deal'],
+            ['dig', 'dug', 'dug', 'to dig'],
+        ];
 
-      let index = 0;
-      let intervalId;
-      let filteredLetter = '';
-      let filteredVerbs = [];
-      let interval = 3000; // Default interval in milliseconds
-      let cycleCount = 1; // Counter for cycles
+        let index = 0;
+        let intervalId;
+        let filteredLetter = '';
+        let filteredVerbs = [];
+        let interval = 3000; // Default interval in milliseconds
+        let cycleCount = 1; // Counter for cycles
 
-      function showVerb() {
-        const area = document.querySelector('#display-area tbody');
-        area.innerHTML = ''; // Clear display area
-
-        // Filter verbs by the entered letter
-        filteredVerbs = irregularVerbs.filter((verb) =>
-          verb[0].startsWith(filteredLetter)
-        );
-
-        // Total number of filtered verbs
-        const totalVerbs = filteredVerbs.length;
-
-        // Reset index if no verbs are filtered
-        if (totalVerbs === 0) {
-          index = 0; // Reset index
-          document.getElementById('counter').innerText = `Verb: 0/${totalVerbs}`;
-          return; // Stop further execution
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
         }
 
-        // Update the counter for current verb
-        document.getElementById('counter').innerText = `Verb: ${((index % totalVerbs) + 1)}/${totalVerbs}`;
+        function showVerb() {
+            const area = document.querySelector('#display-area tbody');
+            area.innerHTML = ''; // Clear display area
 
-        // Update cycle counter if completed a cycle
-        if (index % totalVerbs === 0 && index > 0) {
-          cycleCount++;
-          document.getElementById('cycleCounter').innerText = `Cycle: ${cycleCount}`;
+            // Filter verbs by the entered letter
+            filteredVerbs = irregularVerbs.filter((verb) =>
+                verb[0].startsWith(filteredLetter)
+            );
+
+            // Total number of filtered verbs
+            const totalVerbs = filteredVerbs.length;
+
+            // Reset index if no verbs are filtered
+            if (totalVerbs === 0) {
+                index = 0; // Reset index
+                document.getElementById('counter').innerText = `Verb: 0/${totalVerbs}`;
+                return; // Stop further execution
+            }
+
+            // Update the counter for current verb
+            document.getElementById('counter').innerText = `Verb: ${((index % totalVerbs) + 1)}/${totalVerbs}`;
+
+            // Update cycle counter if completed a cycle
+            if (index % totalVerbs === 0 && index > 0) {
+                cycleCount++;
+                document.getElementById('cycleCounter').innerText = `Cycle: ${cycleCount}`;
+            }
+
+            // Display the current verb
+            const verb = filteredVerbs[index % totalVerbs]; // Cycle through filtered verbs
+            const row = `<tr>
+                    <td>${verb[0]}</td>
+                    <td>${verb[1]}</td>
+                    <td>${verb[2]}</td>
+                    <td>${verb[3]}</td>
+                </tr>`;
+            area.innerHTML = row;
+            index++;
+            document.getElementById('timerDisplay').innerText = `Timer: ${formatTime(interval / 1000)}`; // Update timer display
         }
 
-        // Display the current verb
-        const verb = filteredVerbs[index % totalVerbs]; // Cycle through filtered verbs
-        const row = `<tr>
-                <td>${verb[0]}</td>
-                <td>${verb[1]}</td>
-                <td>${verb[2]}</td>
-                <td>${verb[3]}</td>
-            </tr>`;
-        area.innerHTML = row;
-        index++;
-        document.getElementById('timerDisplay').innerText = `Timer: ${interval / 1000} seconds`; // Update timer display
-      }
+        function showAllVerbs() {
+            const area = document.querySelector('#display-area tbody');
+            area.innerHTML = ''; // Clear display area
 
-      function showAllVerbs() {
-        const area = document.querySelector('#display-area tbody');
-        area.innerHTML = ''; // Clear display area
+            // Display all verbs according to the filter
+            filteredVerbs.forEach((verb) => {
+                const row = `<tr>
+                    <td>${verb[0]}</td>
+                    <td>${verb[1]}</td>
+                    <td>${verb[2]}</td>
+                    <td>${verb[3]}</td>
+                </tr>`;
+                area.innerHTML += row;
+            });
 
-        // Display all verbs according to the filter
-        filteredVerbs.forEach((verb) => {
-          const row = `<tr>
-                <td>${verb[0]}</td>
-                <td>${verb[1]}</td>
-                <td>${verb[2]}</td>
-                <td>${verb[3]}</td>
-            </tr>`;
-          area.innerHTML += row;
+            // Update the counter
+            document.getElementById('counter').innerText = `Verb: ${filteredVerbs.length}/${filteredVerbs.length}`;
+            document.getElementById('status').innerText = 'Status: Stopped';
+        }
+
+        function updateInterval() {
+            const newInterval =
+                parseInt(document.getElementById('timerInput').value) * 1000; // Convert to milliseconds
+            if (newInterval > 0) {
+                interval = newInterval;
+                clearInterval(intervalId);
+                intervalId = setInterval(showVerb, interval);
+            }
+        }
+
+        document.getElementById('stopBtn').addEventListener('click', () => {
+            clearInterval(intervalId);
+            showAllVerbs(); // Show all verbs according to the filter
         });
 
-        // Update the counter
-        document.getElementById('counter').innerText = `Verb: ${filteredVerbs.length}/${filteredVerbs.length}`;
-        document.getElementById('status').innerText = 'Status: Stopped';
-      }
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            clearInterval(intervalId);
+            index = 0;
+            cycleCount = 1; // Reset cycle count
+            document.getElementById('status').innerText = 'Status: Started';
+            document.getElementById('counter').innerText = `Verb: 1/0`; // Reset verb counter
+            document.getElementById('cycleCounter').innerText = `Cycle: ${cycleCount}`; // Reset cycle counter
+            document.getElementById('timerDisplay').innerText = `Timer: 0:00`; // Reset timer display
+            showVerb();
+            intervalId = setInterval(showVerb, interval);
+        });
 
-      function updateInterval() {
-        const newInterval =
-          parseInt(document.getElementById('timerInput').value) * 1000; // Convert to milliseconds
-        if (newInterval > 0) {
-          interval = newInterval;
-          clearInterval(intervalId);
-          intervalId = setInterval(showVerb, interval);
-        }
-      }
+        document.getElementById('fontSizeControl').addEventListener('input', (event) => {
+            const fontSize = event.target.value;
+            document.querySelector('#display-area').style.fontSize = fontSize + 'px';
+            document.getElementById('fontSizeValue').innerText = fontSize;
+        });
 
-      document.getElementById('stopBtn').addEventListener('click', () => {
-        clearInterval(intervalId);
-        showAllVerbs(); // Show all verbs according to the filter
-      });
+        document.getElementById('filterInput').addEventListener('input', (event) => {
+            filteredLetter = event.target.value.toLowerCase(); // Get the letter in lowercase
+            index = 0; // Reset index when applying the filter
+            cycleCount = 1; // Reset cycle count
+            showVerb(); // Show the first filtered verb
+            clearInterval(intervalId); // Clear the previous interval
+            intervalId = setInterval(showVerb, interval); // Restart the interval
+        });
 
-      document.getElementById('resetBtn').addEventListener('click', () => {
-        clearInterval(intervalId);
-        index = 0;
-        cycleCount = 1; // Reset cycle count
-        document.getElementById('status').innerText = 'Status: Started';
-        showVerb();
-        intervalId = setInterval(showVerb, interval);
-      });
+        document.getElementById('timerInput').addEventListener('change', updateInterval);
+        document.getElementById('letterIncrease').addEventListener('click', () => {
+            const input = document.getElementById('filterInput');
+            input.value = String.fromCharCode(input.value.charCodeAt(0) + 1);
+            filteredLetter = input.value.toLowerCase();
+            index = 0; // Reset index when applying the filter
+            showVerb();
+        });
 
-      document.getElementById('fontSizeControl').addEventListener('input', (event) => {
-        const fontSize = event.target.value;
-        document.querySelector('#display-area').style.fontSize = fontSize + 'px';
-        document.getElementById('fontSizeValue').innerText = fontSize;
-      });
+        document.getElementById('letterDecrease').addEventListener('click', () => {
+            const input = document.getElementById('filterInput');
+            input.value = String.fromCharCode(input.value.charCodeAt(0) - 1);
+            filteredLetter = input.value.toLowerCase();
+            index = 0; // Reset index when applying the filter
+            showVerb();
+        });
 
-      document.getElementById('filterInput').addEventListener('input', (event) => {
-        filteredLetter = event.target.value.toLowerCase(); // Get the letter in lowercase
-        index = 0; // Reset index when applying the filter
-        cycleCount = 1; // Reset cycle count
-        showVerb(); // Show the first filtered verb
-        clearInterval(intervalId); // Clear the previous interval
-        intervalId = setInterval(showVerb, interval); // Restart the interval
-      });
-
-      document.getElementById('letterIncrease').addEventListener('click', () => {
-        const currentLetter = document.getElementById('filterInput').value;
-        if (currentLetter) {
-          const nextLetter = String.fromCharCode(currentLetter.charCodeAt(0) + 1);
-          document.getElementById('filterInput').value = nextLetter.toUpperCase();
-          filteredLetter = nextLetter.toLowerCase();
-          index = 0; // Reset index when changing letter
-          showVerb();
-        }
-      });
-
-      document.getElementById('letterDecrease').addEventListener('click', () => {
-        const currentLetter = document.getElementById('filterInput').value;
-        if (currentLetter) {
-          const prevLetter = String.fromCharCode(currentLetter.charCodeAt(0) - 1);
-          document.getElementById('filterInput').value = prevLetter.toUpperCase();
-          filteredLetter = prevLetter.toLowerCase();
-          index = 0; // Reset index when changing letter
-          showVerb();
-        }
-      });
-
-      document.getElementById('timerInput').addEventListener('input', updateInterval);
-
-      document.getElementById('timerDecrease').addEventListener('click', () => {
-        let currentValue = parseInt(document.getElementById('timerInput').value);
-        if (currentValue > 1) {
-          currentValue -= 1;
-          document.getElementById('timerInput').value = currentValue;
-          updateInterval();
-        }
-      });
-
-      document.getElementById('timerIncrease').addEventListener('click', () => {
-        let currentValue = parseInt(document.getElementById('timerInput').value);
-        currentValue += 1;
-        document.getElementById('timerInput').value = currentValue;
-        updateInterval();
-      });
-
-      // Start the interval on page load
-      intervalId = setInterval(showVerb, interval);
+        intervalId = setInterval(showVerb, interval); // Start interval
     </script>
-  </body>
+</body>
 </html>
