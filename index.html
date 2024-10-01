@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lista de Verbos Irregulares</title>
+    <title>Irregular Verbs List</title>
     <style>
       #display-area {
         width: 80%;
         margin: 20px auto;
         border-collapse: collapse;
         text-align: center;
-        font-size: 18px; /* Tamaño de texto inicial */
+        font-size: 18px; /* Initial text size */
       }
 
       table,
@@ -59,322 +59,258 @@
       #fontSizeValue {
         font-weight: bold;
       }
+
+      #timerDisplay {
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 10px;
+      }
     </style>
   </head>
   <body>
-    <h1>Filtrar Verbos Irregulares</h1>
-    <label for="filterInput">Ingrese la letra para filtrar:</label>
+    <h1>Filter Irregular Verbs</h1>
+    <label for="filterInput">Enter letter to filter:</label>
     <input
       type="text"
       id="filterInput"
       maxlength="1"
       style="text-transform: uppercase"
     />
+    <button id="prevLetterBtn">Previous Letter</button>
+    <button id="nextLetterBtn">Next Letter</button>
 
-    <label for="timerInput">Intervalo (segundos):</label>
-    <input type="number" id="timerInput" min="1" value="3" />
+    <label for="timerInput">Interval (seconds):</label>
+    <input
+      type="number"
+      id="timerInput"
+      min="1"
+      value="3"
+      style="width: 60px"
+    />
+    <button id="timerDecrease">-</button>
+    <button id="timerIncrease">+</button>
+
+    <div id="timerDisplay">Timer: 3 seconds</div>
 
     <table id="display-area">
       <thead>
         <tr>
-          <th>Infinitivo</th>
-          <th>Pasado Simple</th>
-          <th>Pasado Participio</th>
-          <th>Significado</th>
+          <th>Infinitive</th>
+          <th>Simple Past</th>
+          <th>Past Participle</th>
+          <th>Meaning</th>
         </tr>
       </thead>
       <tbody>
-        <!-- Aquí se mostrarán los verbos -->
+        <!-- Here the verbs will be displayed -->
       </tbody>
     </table>
 
     <div id="controls">
-      <button id="stopBtn">Detener</button>
-      <button id="resetBtn">Reiniciar</button>
-      <div id="status">Estado: Iniciado</div>
+      <button id="stopBtn">Stop</button>
+      <button id="resetBtn">Reset</button>
+      <div id="status">Status: Started</div>
     </div>
 
-    <div id="counter">Verbo: 1/0</div>
-    <!-- Contador de verbos -->
+    <div id="counter">Verb: 1/0</div>
+    <!-- Verb counter -->
+    <div id="cycleCounter">Cycles: 0</div>
+    <!-- Cycle counter -->
 
-    <!-- Footer con control del tamaño de texto -->
+    <!-- Footer with text size control -->
     <footer>
-      <label for="fontSizeControl">Tamaño del texto:</label>
-      <input type="range" id="fontSizeControl" min="12" max="30" value="18" />
+      <label for="fontSizeControl">Text size:</label>
+      <input
+        type="range"
+        id="fontSizeControl"
+        min="12"
+        max="30"
+        value="18"
+      />
       <span id="fontSizeValue">18</span> px
     </footer>
 
     <script>
-      // Lista de 15 verbos irregulares como ejemplo
-      const verbosIrregulares = [
-        ["abide", "abode", "abode", "permanecer"],
-        ["arise", "arose", "arisen", "surgir"],
-        ["awake", "awoke", "awoken", "despertar(se)"],
-        ["be", "was/were", "been", "ser/estar"],
-        ["bear", "bore", "born", "dar a luz"],
-        ["become", "became", "become", "convertirse"],
-        ["begin", "began", "begun", "empezar"],
-        ["bend", "bent", "bent", "doblar"],
-        ["bet", "bet", "bet", "apostar"],
-        ["bid", "bid", "bid", "ofertar"],
-        ["bite", "bit", "bitten", "morder"],
-        ["bleed", "bled", "bled", "sangrar"],
-        ["blow", "blew", "blown", "soplar"],
-        ["break", "broke", "broken", "romper"],
-        ["bring", "brought", "brought", "traer"],
-        ["build", "built", "built", "construir"],
-        ["burn", "burnt/burned", "burnt/burned", "quemar"],
-        ["burst", "burst", "burst", "estallar"],
-        ["buy", "bought", "bought", "comprar"],
-        ["cast", "cast", "cast", "echar"],
-        ["catch", "caught", "caught", "atrapar"],
-        ["choose", "chose", "chosen", "elegir"],
-        ["cling", "clung", "clung", "aferrarse"],
-        ["come", "came", "come", "venir"],
-        ["cost", "cost", "cost", "costar"],
-        ["creep", "crept", "crept", "gatear"],
-        ["cut", "cut", "cut", "cortar"],
-        ["deal", "dealt", "dealt", "tratar"],
-        ["dig", "dug", "dug", "cavar"],
-        ["do", "did", "done", "hacer"],
-        ["draw", "drew", "drawn", "dibujar"],
-        ["dream", "dreamt/dreamed", "dreamt/dreamed", "soñar"],
-        ["drink", "drank", "drunk", "beber"],
-        ["drive", "drove", "driven", "conducir"],
-        ["eat", "ate", "eaten", "comer"],
-        ["fall", "fell", "fallen", "caer"],
-        ["feed", "fed", "fed", "alimentar"],
-        ["feel", "felt", "felt", "sentir"],
-        ["fight", "fought", "fought", "luchar"],
-        ["find", "found", "found", "encontrar"],
-        ["flee", "fled", "fled", "huir"],
-        ["fling", "flung", "flung", "arrojar"],
-        ["fly", "flew", "flown", "volar"],
-        ["forbid", "forbade", "forbidden", "prohibir"],
-        ["forget", "forgot", "forgotten", "olvidar"],
-        ["forgive", "forgave", "forgiven", "perdonar"],
-        ["freeze", "froze", "frozen", "congelar"],
-        ["get", "got", "gotten/got", "obtener"],
-        ["give", "gave", "given", "dar"],
-        ["go", "went", "gone", "ir"],
-        ["grow", "grew", "grown", "crecer"],
-        ["hang", "hung", "hung", "colgar"],
-        ["have", "had", "had", "tener"],
-        ["hear", "heard", "heard", "oír"],
-        ["hide", "hid", "hidden", "ocultar"],
-        ["hit", "hit", "hit", "golpear"],
-        ["hold", "held", "held", "sostener"],
-        ["hurt", "hurt", "hurt", "herir"],
-        ["keep", "kept", "kept", "mantener"],
-        ["kneel", "knelt", "knelt", "arrodillarse"],
-        ["know", "knew", "known", "saber/conocer"],
-        ["lay", "laid", "laid", "poner"],
-        ["lead", "led", "led", "dirigir"],
-        ["lean", "leant/leaned", "leant/leaned", "inclinarse"],
-        ["leap", "leapt/leaped", "leapt/leaped", "saltar"],
-        ["leave", "left", "left", "dejar"],
-        ["lend", "lent", "lent", "prestar"],
-        ["let", "let", "let", "dejar"],
-        ["lie", "lay", "lain", "mentir"],
-        ["light", "lit/lighted", "lit/lighted", "iluminar"],
-        ["lose", "lost", "lost", "perder"],
-        ["make", "made", "made", "hacer"],
-        ["mean", "meant", "meant", "significar"],
-        ["meet", "met", "met", "encontrar"],
-        ["miss", "missed", "missed", "extrañar"],
-        ["mistake", "mistook", "mistaken", "errar"],
-        ["mow", "mowed", "mown", "cortar (césped)"],
-        ["overcome", "overcame", "overcome", "superar"],
-        ["partake", "partook", "partaken", "participar"],
-        ["pay", "paid", "paid", "pagar"],
-        ["put", "put", "put", "poner"],
-        ["quit", "quit/quitted", "quit/quitted", "dejar"],
-        ["read", "read", "read", "leer"],
-        ["ride", "rode", "ridden", "montar"],
-        ["ring", "rang", "rung", "sonar"],
-        ["rise", "rose", "risen", "elevarse"],
-        ["run", "ran", "run", "correr"],
-        ["saw", "sawed", "sawn/sawed", "serrar"],
-        ["say", "said", "said", "decir"],
-        ["see", "saw", "seen", "ver"],
-        ["sell", "sold", "sold", "vender"],
-        ["send", "sent", "sent", "enviar"],
-        ["set", "set", "set", "colocar"],
-        ["sew", "sewed", "sewn/sewed", "coser"],
-        ["shake", "shook", "shaken", "sacudir"],
-        ["shave", "shaved", "shaved", "afeitar"],
-        ["shear", "sheared", "shorn/sheared", "esquilar"],
-        ["shine", "shone", "shone", "brillar"],
-        ["shoot", "shot", "shot", "disparar"],
-        ["show", "showed", "shown", "mostrar"],
-        ["shut", "shut", "shut", "cerrar"],
-        ["sing", "sang", "sung", "cantar"],
-        ["sink", "sank", "sunk", "hundir"],
-        ["sit", "sat", "sat", "sentar(se)"],
-        ["sleep", "slept", "slept", "dormir"],
-        ["slide", "slid", "slid", "deslizar"],
-        ["sling", "slung", "slung", "lanzar"],
-        ["slink", "slunk", "slunk", "escabullirse"],
-        ["sneak", "snuck", "snuck", "furtar"],
-        ["sow", "sowed", "sown", "sembrar"],
-        ["speak", "spoke", "spoken", "hablar"],
-        ["spend", "spent", "spent", "gastar"],
-        ["spill", "spilt/spilled", "spilt/spilled", "derramar"],
-        ["spin", "spun", "spun", "hilar"],
-        ["spit", "spat", "spat", "escupir"],
-        ["split", "split", "split", "dividir"],
-        ["spread", "spread", "spread", "extender"],
-        ["spring", "sprang", "sprung", "saltar"],
-        ["stand", "stood", "stood", "estar de pie"],
-        ["steal", "stole", "stolen", "robar"],
-        ["stick", "stuck", "stuck", "pegar"],
-        ["sting", "stung", "stung", "picar"],
-        ["stink", "stank", "stunk", "oler mal"],
-        ["strike", "struck", "struck", "golpear"],
-        ["string", "strung", "strung", "ensartar"],
-        ["swear", "swore", "sworn", "jurar"],
-        ["sweep", "swept", "swept", "barrer"],
-        ["swim", "swam", "swum", "nadar"],
-        ["take", "took", "taken", "tomar"],
-        ["teach", "taught", "taught", "enseñar"],
-        ["tear", "tore", "torn", "rasgar"],
-        ["tell", "told", "told", "decir"],
-        ["think", "thought", "thought", "pensar"],
-        ["thrive", "throve/thrived", "thriven/thrived", "prosperar"],
-        ["throw", "threw", "thrown", "lanzar"],
-        ["thrust", "thrust", "thrust", "empujar"],
-        ["tread", "trod", "trodden", "pisar"],
-        ["understand", "understood", "understood", "entender"],
-        ["uphold", "upheld", "upheld", "mantener"],
-        ["wake", "woke", "woken", "despertar"],
-        ["wear", "wore", "worn", "llevar puesto"],
-        ["weave", "wove", "woven", "tejer"],
-        ["weep", "wept", "wept", "llorar"],
-        ["win", "won", "won", "ganar"],
-        ["wind", "wound", "wound", "enrollar"],
-        ["withdraw", "withdrew", "withdrawn", "retirar"],
-        ["withstand", "withstood", "withstood", "resistir"],
-        ["wring", "wrung", "wrung", "retorcer"],
-        ["write", "wrote", "written", "escribir"],
+      // List of 15 irregular verbs as an example
+      const irregularVerbs = [
+        ['abide', 'abode', 'abode', 'to remain'],
+        ['arise', 'arose', 'arisen', 'to arise'],
+        ['be', 'was/were', 'been', 'to be'],
+        ['bear', 'bore', 'born', 'to bear'],
+        ['cast', 'cast', 'cast', 'to cast'],
+        ['catch', 'caught', 'caught', 'to catch'],
+        ['deal', 'dealt', 'dealt', 'to deal'],
+        ['dig', 'dug', 'dug', 'to dig'],
       ];
 
-      let indice = 0;
+      let index = 0;
+      let cycleCount = 0;
       let intervalId;
-      let letraFiltrada = "";
-      let verbosFiltrados = [];
-      let intervalo = 3000; // Intervalo predeterminado en milisegundos
+      let filteredLetter = '';
+      let filteredVerbs = [];
+      let interval = 3000; // Default interval in milliseconds
 
-      function mostrarVerbo() {
-        const area = document.querySelector("#display-area tbody");
-        area.innerHTML = ""; // Limpiar área de visualización
+      function showVerb() {
+        const area = document.querySelector('#display-area tbody');
+        area.innerHTML = ''; // Clear display area
 
-        // Filtrar verbos por la letra ingresada
-        verbosFiltrados = verbosIrregulares.filter((verbo) =>
-          verbo[0].startsWith(letraFiltrada)
+        // Filter verbs by the entered letter
+        filteredVerbs = irregularVerbs.filter((verb) =>
+          verb[0].startsWith(filteredLetter)
         );
 
-        // Calcular el total de verbos
-        const totalVerbos = verbosFiltrados.length || verbosIrregulares.length;
+        // Calculate total verbs
+        const totalVerbs = filteredVerbs.length || irregularVerbs.length;
 
-        // Actualizar el contador
-        document.getElementById("counter").innerText = `Verbo: ${
-          (indice % totalVerbos) + 1
-        }/${totalVerbos}`;
+        // Update the counter
+        document.getElementById('counter').innerText = `Verb: ${
+          (index % totalVerbs) + 1
+        }/${totalVerbs}`;
 
-        // Si hay verbos restantes
-        if (totalVerbos > 0) {
-          const verbo = verbosFiltrados[indice % totalVerbos]; // Ciclar a través de los verbos filtrados
+        // If there are remaining verbs
+        if (totalVerbs > 0) {
+          const verb = filteredVerbs[index % totalVerbs]; // Cycle through filtered verbs
           const row = `<tr>
-                <td>${verbo[0]}</td>
-                <td>${verbo[1]}</td>
-                <td>${verbo[2]}</td>
-                <td>${verbo[3]}</td>
+                <td>${verb[0]}</td>
+                <td>${verb[1]}</td>
+                <td>${verb[2]}</td>
+                <td>${verb[3]}</td>
             </tr>`;
           area.innerHTML = row;
-          indice++;
+          index++;
         } else {
           clearInterval(intervalId);
-          document.getElementById("status").innerText = "Estado: Detenido";
+          document.getElementById('status').innerText = 'Status: Stopped';
+        }
+
+        // Update cycle count if we have cycled through all verbs
+        if (index % irregularVerbs.length === 0) {
+          cycleCount++;
+          document.getElementById('cycleCounter').innerText = `Cycles: ${cycleCount}`;
         }
       }
 
-      function mostrarTodosLosVerbos() {
-        const area = document.querySelector("#display-area tbody");
-        area.innerHTML = ""; // Limpiar área de visualización
-        const totalVerbos = letraFiltrada
-          ? verbosFiltrados.length
-          : verbosIrregulares.length;
+      function showAllVerbs() {
+        const area = document.querySelector('#display-area tbody');
+        area.innerHTML = ''; // Clear display area
+        const totalVerbs = filteredLetter
+          ? filteredVerbs.length
+          : irregularVerbs.length;
 
-        // Mostrar todos los verbos según el filtro
-        const verbosParaMostrar = letraFiltrada
-          ? verbosFiltrados
-          : verbosIrregulares;
+        // Show all verbs based on the filter
+        const verbsToShow = filteredLetter
+          ? filteredVerbs
+          : irregularVerbs;
 
-        verbosParaMostrar.forEach((verbo) => {
+        verbsToShow.forEach((verb) => {
           const row = `<tr>
-                <td>${verbo[0]}</td>
-                <td>${verbo[1]}</td>
-                <td>${verbo[2]}</td>
-                <td>${verbo[3]}</td>
+                <td>${verb[0]}</td>
+                <td>${verb[1]}</td>
+                <td>${verb[2]}</td>
+                <td>${verb[3]}</td>
             </tr>`;
           area.innerHTML += row;
         });
 
-        // Actualizar el contador
+        // Update the counter
         document.getElementById(
-          "counter"
-        ).innerText = `Verbo: ${totalVerbos}/${totalVerbos}`;
-        document.getElementById("status").innerText = "Estado: Detenido";
+          'counter'
+        ).innerText = `Verb: ${totalVerbs}/${totalVerbs}`;
+        document.getElementById('status').innerText = 'Status: Stopped';
       }
 
-      function actualizarIntervalo() {
-        const nuevoIntervalo =
-          parseInt(document.getElementById("timerInput").value) * 1000; // Convertir a milisegundos
-        if (nuevoIntervalo > 0) {
-          intervalo = nuevoIntervalo;
+      function updateInterval() {
+        const newInterval =
+          parseInt(document.getElementById('timerInput').value) * 1000; // Convert to milliseconds
+        if (newInterval > 0) {
+          interval = newInterval;
           clearInterval(intervalId);
-          intervalId = setInterval(mostrarVerbo, intervalo);
+          intervalId = setInterval(showVerb, interval);
+          document.getElementById('timerDisplay').innerText = `Timer: ${
+            newInterval / 1000
+          } seconds`;
         }
       }
 
-      document.getElementById("stopBtn").addEventListener("click", () => {
+      document.getElementById('stopBtn').addEventListener('click', () => {
         clearInterval(intervalId);
-        mostrarTodosLosVerbos(); // Mostrar todos los verbos según el filtro
+        showAllVerbs(); // Show all verbs based on the filter
       });
 
-      document.getElementById("resetBtn").addEventListener("click", () => {
+      document.getElementById('resetBtn').addEventListener('click', () => {
         clearInterval(intervalId);
-        indice = 0;
-        document.getElementById("status").innerText = "Estado: Iniciado";
-        mostrarVerbo();
-        intervalId = setInterval(mostrarVerbo, intervalo);
+        index = 0;
+        document.getElementById('status').innerText = 'Status: Started';
+        showVerb();
+        intervalId = setInterval(showVerb, interval);
+        cycleCount = 0; // Reset cycle count on reset
+        document.getElementById('cycleCounter').innerText = `Cycles: ${cycleCount}`;
       });
 
       document
-        .getElementById("fontSizeControl")
-        .addEventListener("input", (event) => {
+        .getElementById('fontSizeControl')
+        .addEventListener('input', (event) => {
           const fontSize = event.target.value;
-          document.querySelector("#display-area").style.fontSize =
-            fontSize + "px";
-          document.getElementById("fontSizeValue").innerText = fontSize;
+          document.querySelector('#display-area').style.fontSize =
+            fontSize + 'px';
+          document.getElementById('fontSizeValue').innerText = fontSize;
         });
 
       document
-        .getElementById("filterInput")
-        .addEventListener("input", (event) => {
-          letraFiltrada = event.target.value.toLowerCase(); // Tomar la letra en minúscula
-          indice = 0; // Reiniciar el índice al aplicar el filtro
-          mostrarVerbo(); // Mostrar el primer verbo filtrado
-          clearInterval(intervalId); // Limpiar el intervalo anterior
-          intervalId = setInterval(mostrarVerbo, intervalo); // Reiniciar el intervalo
+        .getElementById('filterInput')
+        .addEventListener('input', (event) => {
+          filteredLetter = event.target.value.toLowerCase(); // Take the letter in lowercase
+          index = 0; // Reset index when applying filter
+          showVerb(); // Show the first filtered verb
+          clearInterval(intervalId); // Clear previous interval
+          intervalId = setInterval(showVerb, interval); // Restart the interval
         });
 
       document
-        .getElementById("timerInput")
-        .addEventListener("change", actualizarIntervalo);
+        .getElementById('timerInput')
+        .addEventListener('change', updateInterval);
 
-      // Iniciar la presentación de verbos
-      intervalId = setInterval(mostrarVerbo, intervalo);
+      document.getElementById('nextLetterBtn').addEventListener('click', () => {
+        const currentLetter = document.getElementById('filterInput').value;
+        if (currentLetter) {
+          const nextLetter = String.fromCharCode(currentLetter.charCodeAt(0) + 1);
+          document.getElementById('filterInput').value = nextLetter.toUpperCase();
+          filteredLetter = nextLetter.toLowerCase();
+          index = 0; // Reset index when changing letter
+          showVerb();
+        }
+      });
+
+      document.getElementById('prevLetterBtn').addEventListener('click', () => {
+        const currentLetter = document.getElementById('filterInput').value;
+        if (currentLetter) {
+          const prevLetter = String.fromCharCode(currentLetter.charCodeAt(0) - 1);
+          document.getElementById('filterInput').value = prevLetter.toUpperCase();
+          filteredLetter = prevLetter.toLowerCase();
+          index = 0; // Reset index when changing letter
+          showVerb();
+        }
+      });
+
+      document.getElementById('timerDecrease').addEventListener('click', () => {
+        let currentValue = parseInt(document.getElementById('timerInput').value);
+        if (currentValue > 1) {
+          document.getElementById('timerInput').value = currentValue - 1;
+          updateInterval();
+        }
+      });
+
+      document.getElementById('timerIncrease').addEventListener('click', () => {
+        let currentValue = parseInt(document.getElementById('timerInput').value);
+        document.getElementById('timerInput').value = currentValue + 1;
+        updateInterval();
+      });
+
+      // Start displaying verbs
+      intervalId = setInterval(showVerb, interval);
+      document.getElementById('timerDisplay').innerText = `Timer: ${
+        interval / 1000
+      } seconds`;
     </script>
   </body>
 </html>
