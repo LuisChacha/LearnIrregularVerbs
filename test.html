@@ -270,7 +270,7 @@
           row.appendChild(group);
         });
 
-        // Asignamos la navegación con Enter en cada input
+        // Asignar navegación con Enter a cada input de la fila
         const inputs = row.querySelectorAll("input");
         inputs.forEach((input, idx) => {
           input.addEventListener("keydown", function (e) {
@@ -329,10 +329,28 @@
       function addRow() {
         const row = createRow();
         rowsContainer.appendChild(row);
+        // Colocar el foco en la primera caja de la nueva fila
+        const firstInput = row.querySelector("input");
+        if (firstInput) {
+          firstInput.focus();
+        }
       }
 
-      // Agregar una fila inicial y asignar el evento al botón
+      // Agregar una fila inicial al cargar la página y colocar el foco en su primera caja
       addRow();
+
+      // Al cargar la página, asegurarse de que el foco esté en la primera caja de la primera fila
+      window.addEventListener("load", function () {
+        const firstRow = rowsContainer.querySelector(".input-row");
+        if (firstRow) {
+          const firstInput = firstRow.querySelector("input");
+          if (firstInput) {
+            firstInput.focus();
+          }
+        }
+      });
+
+      // Asignar el evento al botón para agregar filas
       addRowBtn.addEventListener("click", addRow);
     </script>
   </body>
