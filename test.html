@@ -280,7 +280,10 @@
               if (idx < inputs.length - 1) {
                 inputs[idx + 1].focus();
               } else {
-                validateRow(row);
+                validateRow(row);  // 1. Valida la fila actual
+                if (input.value.trim() !== "") { // Solo agrega si el usuario escribió algo
+                  addRow()           // 2. Agrega una nueva fila automáticamente
+                }
               }
             }
           });
