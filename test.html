@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -280,9 +280,10 @@
               if (idx < inputs.length - 1) {
                 inputs[idx + 1].focus();
               } else {
-                validateRow(row);  // 1. Valida la fila actual
-                if (input.value.trim() !== "") { // Solo agrega si el usuario escribió algo
-                  addRow()           // 2. Agrega una nueva fila automáticamente
+                if (input.value.trim() !== "") {
+                  // Solo si el usuario escribió algo
+                  validateRow(row); // 1. Valida la fila actual
+                  addRow(); // 2. Agrega una nueva fila automáticamente
                 }
               }
             }
@@ -301,7 +302,7 @@
         });
         // values[0] = Infinitivo, [1] = Pasado Simple, etc.
         const foundRow = irregularVerbs.find((r) =>
-          compareAnswer(values[0], r[0])
+          compareAnswer(values[0], r[0]),
         );
 
         groups.forEach((group, idx) => {
@@ -341,10 +342,10 @@
         }
       }
 
-      function fnLimpiar(){
+      function fnLimpiar() {
         // 1. Eliminamos todos los hijos del contenedor de filas
         rowsContainer.innerHTML = "";
-        
+
         // 2. Agregamos una fila nueva inicial
         addRow();
       }
