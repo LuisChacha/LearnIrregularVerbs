@@ -81,6 +81,7 @@
         <!-- Se agregarán filas dinámicamente -->
       </div>
       <button id="addRowBtn">Agregar línea</button>
+      <button id="limpiar">Limpiar</button>
     </div>
 
     <script>
@@ -325,6 +326,7 @@
       // Configurar contenedor y botón para agregar filas
       const rowsContainer = document.getElementById("rowsContainer");
       const addRowBtn = document.getElementById("addRowBtn");
+      const limpiar = document.getElementById("limpiar");
 
       function addRow() {
         const row = createRow();
@@ -334,6 +336,14 @@
         if (firstInput) {
           firstInput.focus();
         }
+      }
+
+      function fnLimpiar(){
+        // 1. Eliminamos todos los hijos del contenedor de filas
+        rowsContainer.innerHTML = "";
+        
+        // 2. Agregamos una fila nueva inicial
+        addRow();
       }
 
       // Agregar una fila inicial al cargar la página y colocar el foco en su primera caja
@@ -352,6 +362,7 @@
 
       // Asignar el evento al botón para agregar filas
       addRowBtn.addEventListener("click", addRow);
+      limpiar.addEventListener("click", fnLimpiar);
     </script>
   </body>
 </html>
